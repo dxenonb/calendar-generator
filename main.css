@@ -1,0 +1,145 @@
+:root {
+    --page-header-align: left;
+
+    --calendar-dow-bg-color: #aaa;
+    --calendar-border-width: 1px;
+    --calendar-border-color: #808080;
+
+    --calendar-font-family: 'Courier New', Courier, monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}
+
+div.line {
+    height: calc(var(--calendar-font-size, 12px) * 2.25);
+    border-bottom: 1px dotted var(--calendar-border-color);
+
+    margin-left: -4px;
+    margin-right: -4px;
+    opacity: 0.8;
+}
+
+.page {
+    padding: 0.25in;
+    box-sizing: content-box;
+}
+
+.page > header {
+    text-align: var(--page-header-align);
+
+    font-family: var(--page-header-font-family, var(--calendar-header-font-family, var(--calendar-font-family)));
+    font-size: var(--page-header-font-size, --calendar-header-font-size, 12px);
+
+    margin-bottom: 0.125in;
+}
+
+.page.alt > footer, .page.alt > header {
+    text-align: right;
+}
+
+.page-num {
+    font-size: 8px;
+    color: #777;
+}
+
+.calendar-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.notes {
+    flex: 1;
+    margin-left: 0.25in;
+}
+
+.notes h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.calendar {
+    table-layout: fixed;
+    border-collapse: collapse;
+
+    font-family: var(--calendar-font-family);
+
+}
+
+.calendar th, .calendar td {
+    padding: 0;
+
+    border: var(--calendar-border-width) solid var(--calendar-border-color);
+}
+
+.calendar th:first-child, .calendar td:first-child {
+    border-left: none;
+}
+
+.calendar th:last-child, .calendar td:last-child {
+    border-right: none;
+}
+
+.calendar td.out-of-month {
+    color: var(--cell-color-out-of-month, var(--cell-color), #777);
+}
+
+.calendar thead {
+    background-color: var(--calendar-dow-bg-color);
+
+    font-family: var(--calendar-header-font-family, var(--calendar-font-family));
+    font-size: var(--calendar-header-font-size, 12px);
+}
+
+.calendar td {
+    vertical-align: top;
+    text-align: left;
+
+    height: 1.875in;
+    width: 1.8in;
+
+    padding: 4px;
+
+    font-size: var(--calendar-font-size, 12px);
+
+    overflow: hidden;
+}
+
+.calendar td > p {
+    margin: 0;
+    padding: 0;
+}
+
+@media screen {
+    body, main {
+        background: #333;
+    }
+
+    main {
+        width: 8.5in;
+        margin: 10px auto;
+    }
+
+    .page {
+        border: 1px solid black;
+        box-sizing: border-box;
+
+        margin: 10px;
+
+        background: #fff;
+    }
+}
+
+@media print {
+    .screen-only {
+        display: none;
+    }   
+}
+
+/* utility */
+.page-break {
+    break-after: page;
+}

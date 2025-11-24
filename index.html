@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lobster&display=swap" rel="stylesheet">
+
+    <script src="./luxon.min.js"></script>
+    <script type="module" src="./modules/luxon.shim.js"></script>
+    <script type="module" src="./modules/main.js"></script>
+    <link rel="stylesheet" href="./modern-normalize.css">
+    <link rel="stylesheet" href="./main.css">
+</head>
+<body>
+    <main class="">
+        <div id="controls" class="screen-only">
+            <h2>Configuration</h2>
+        </div>
+
+        <div id="target">
+        </div>
+    </main>
+
+    <script type="module">
+        import { main, dowSlice } from './modules/main.js';
+
+        main();
+
+        window.dowSlice = dowSlice;
+    </script>
+</body>
+</html>
