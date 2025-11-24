@@ -2,10 +2,11 @@ import luxon from './luxon.shim.js';
 const { DateTime } = luxon;
 
 export const defaultConfig = () => ({
-    locale: 'zh-ZH',
+    locale: 'en-US',
     dowStart: 1,
     dowCount: 7,
     startDate: DateTime.fromISO("2025-11-01"),
+    endDate: DateTime.fromISO("2027-01-01"),
     maxCalendarRows: 5,
     styleVars: {
         '--page-header-font-family': 'monospace',
@@ -47,7 +48,10 @@ export function renderFullCalendar() {
     }
 
     const startDate = config.startDate;
-    renderMonth(host, config, { startDate, pageNumber: 1 });
+    let instance = { startDate, pageNumber: 1 };
+    do {
+        instance = renderMonth(host, config, instance);
+    } while (instance.startDate.startOf('day') < config.endDate.startOf('day'));
 }
 
 export function renderMonth(host, config, instance) {
@@ -62,7 +66,7 @@ export function renderMonth(host, config, instance) {
 
     let dt = startDate.plus({ days: -firstDow - 1 })
 
-    const page1 = renderPage(config, {
+    const [page1, _] = renderPage(config, {
         header: startDate.toFormat('LLLL'),
         cols: page1Days,
         month: startDate.month,
@@ -71,8 +75,8 @@ export function renderMonth(host, config, instance) {
     });
     host.appendChild(page1);
 
-    const page2 = renderPage(config, {
-        header: '2025',
+    const [page2, endDate] = renderPage(config, {
+        header: startDate.toFormat('yyyy'),
         cols: page2Days,
         month: startDate.month,
         startDate: dt.plus({ days: page1Days }),
@@ -81,6 +85,8 @@ export function renderMonth(host, config, instance) {
         hasNotes: true,
     });
     host.appendChild(page2);
+
+    return { startDate: endDate, pageNumber: pageNumber + 2 };
 }
 
 function renderPage(config, instance) {
@@ -108,6 +114,7 @@ function renderPage(config, instance) {
             if (dt.month === month) {
                 row.push(renderCalendarDay('', dt.day));
             } else {
+                debugger;
                 row.push(renderCalendarDay('out-of-month', dt.day));
             }
 
@@ -156,7 +163,7 @@ function renderPage(config, instance) {
         ]
     );
 
-    return template;
+    return [template, dt];
 }
 
 function renderCalendarDay(className, day) {

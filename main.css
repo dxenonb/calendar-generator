@@ -84,7 +84,7 @@ div.line {
 }
 
 .calendar td.out-of-month {
-    color: var(--cell-color-out-of-month, var(--cell-color), #777);
+    color: var(--cell-color-out-of-month, var(--cell-color, #777));
 }
 
 .calendar thead {
