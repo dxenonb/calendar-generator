@@ -2,7 +2,7 @@ import luxon from './luxon.shim.js';
 const { DateTime } = luxon;
 
 export const defaultConfig = () => ({
-    locale: 'en-US',
+    locale: 'ja-JA',
     dowStart: 1,
     dowCount: 7,
     startDate: DateTime.fromISO("2025-11-01"),
@@ -114,7 +114,6 @@ function renderPage(config, instance) {
             if (dt.month === month) {
                 row.push(renderCalendarDay('', dt.day));
             } else {
-                debugger;
                 row.push(renderCalendarDay('out-of-month', dt.day));
             }
 
