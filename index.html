@@ -5,16 +5,49 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lobster&display=swap" rel="stylesheet">
 
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
     <script src="./luxon.min.js"></script>
     <script type="module" src="./modules/luxon.shim.js"></script>
     <script type="module" src="./modules/main.js"></script>
     <link rel="stylesheet" href="./modern-normalize.css">
+    <link rel="stylesheet" href="./config.css">
     <link rel="stylesheet" href="./main.css">
 </head>
 <body>
-    <main class="">
-        <div id="controls" class="screen-only">
-            <h2>Configuration</h2>
+    <main>
+        <div id="vue-app" class="config screen-only">
+            <!-- start date -->
+            <label for="cfg-start-year">Start Year</label>
+            <input id="cfg-start-year" type="number" v-model="startYear">
+
+            <label for="cfg-start-year">Start Month</label>
+            <input id="cfg-start-year" type="number" v-model="startMonth">
+
+            <!-- end date -->
+            <!-- locale -->
+            <!-- holidays -->
+
+            <label for="cfg-dow">First day of the week:</label>
+            <select id="cfg-dow" v-model="dowStart">
+                <option value="0">Sunday</option>
+                <option value="1">Monday</option>
+                <option value="2">Tuesday</option>
+                <option value="3">Wednesday</option>
+                <option value="4">Thursday</option>
+                <option value="5">Friday</option>
+                <option value="6">Saturday</option>
+            </select>
+
+            <label for="cfg-dow">First day of the week:</label>
+            <select id="cfg-dow" v-model="locale">
+                <option v-for="i in locales" :value="i.value">{{i.name}}</option>
+            </select>
+
+            <p class="config-note">Note: This calendar does not split cells. 
+                Months with 30 or 31 days that begin on the 5th, 6th, or 7th day of the week
+                will have their final days shown in gray on the next month.
+            </p>
         </div>
 
         <div id="target">

@@ -1,12 +1,20 @@
 import luxon from './luxon.shim.js';
+import Vue from './vue.shim.js';
+import runConfigApp from './config.js';
+
+const { createApp, ref } = Vue;
+
 const { DateTime } = luxon;
 
 export const defaultConfig = () => ({
-    locale: 'ja-JA',
-    dowStart: 1,
+    locale: 'es-ES',
+    dowStart: 0,
     dowCount: 7,
-    startDate: DateTime.fromISO("2025-11-01"),
-    endDate: DateTime.fromISO("2027-01-01"),
+    start: {
+        year: 2025,
+        month: 10,
+    },
+    endDate: DateTime.fromISO("2026-03-01"),
     maxCalendarRows: 5,
     styleVars: {
         '--page-header-font-family': 'monospace',
@@ -21,36 +29,36 @@ export const defaultConfig = () => ({
 });
 
 export function main() {
-    renderFullCalendar();
+    runConfigApp("#vue-app", (props) => {
+        const host = document.getElementById('target');
+
+        host.innerHTML = '';
+
+        const config = { ...defaultConfig(), ...props };
+
+        renderFullCalendar(config, host);
+    });
 }
 
-export function renderFullCalendar() {
-    const config = defaultConfig();
-    config.startDate = config.startDate.setLocale(config.locale);
-
-    config.dow = [];
-    {
-        // hack to get localized day names
-        // 2025-06-01 is a Sunday (weekday=0 in our system)
-        let dt = DateTime.fromISO('2025-06-01', { locale: config.locale });
-        for (let i=0; i < 7;i+=1) {
-            config.dow.push(dt.toFormat('cccc'));
-            dt = dt.plus({ days: 1 });
-        }
-
-    }
-
-    const host = document.getElementById('target');
-
+export function renderFullCalendar(config, host) {
+    config = wrapConfig(config);
+    
+    // set CSS properties on host from the config
     for (const key of Object.keys(config.styleVars)) {
         const value = config.styleVars[key];
         host.style.setProperty(key, value);
     }
 
-    const startDate = config.startDate;
+    let startDate = DateTime.fromObject({ year: config.start.year, month: config.start.month, day: 1 })
+        .setLocale(config.locale);
+
     let instance = { startDate, pageNumber: 1 };
     do {
-        instance = renderMonth(host, config, instance);
+        // TODO: fix the return type of renderMonth, we arent using it anymore
+        const result = renderMonth(host, config, instance);
+
+        startDate = startDate.plus({ months: 1 });
+        instance = { startDate, pageNumber: result.pageNumber };
     } while (instance.startDate.startOf('day') < config.endDate.startOf('day'));
 }
 
@@ -190,6 +198,32 @@ export function dowSlice(dow, start, count) {
         result.push(dow[(start + i) % len]);
     }
     return result;
+}
+
+/** wrap config object with useful derived properties */
+function wrapConfig(config) {
+    // hack to get localized day names
+    const dow = [];
+    {
+        // 2025-06-01 is a Sunday (weekday=0 in our system)
+        let dt = DateTime.fromISO('2025-06-01', { locale: config.locale });
+        for (let i=0; i < 7;i+=1) {
+            dow.push(dt.toFormat('cccc'));
+            dt = dt.plus({ days: 1 });
+        }
+    }
+
+    return new Proxy(config, {
+        get(target, prop) {
+            if (prop === 'dow') {
+                return dow;
+            }
+            return target[prop];
+        },
+        set() {
+            throw new Error('Not implemented');
+        },
+    });
 }
 
 function $(el, classesOrChildren, children) {

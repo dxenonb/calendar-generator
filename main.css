@@ -36,6 +36,10 @@ div.line {
     margin-bottom: 0.125in;
 }
 
+.page.alt {
+    padding-left: 0.75in;
+}
+
 .page.alt > footer, .page.alt > header {
     text-align: right;
 }
@@ -119,15 +123,25 @@ div.line {
     }
 
     main {
-        width: 8.5in;
-        margin: 10px auto;
+        /* display: flex; */
+    }
+
+    #target {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        /* width: 8.5in; */
+        /* margin: 10px auto; */
+
     }
 
     .page {
+        margin: 10px;
+
+        width: 8.5in;
+
         border: 1px solid black;
         box-sizing: border-box;
-
-        margin: 10px;
 
         background: #fff;
     }
