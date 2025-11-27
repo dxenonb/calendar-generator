@@ -7,7 +7,7 @@ const { createApp, ref } = Vue;
 const { DateTime } = luxon;
 
 export const defaultConfig = () => ({
-    locale: 'es-ES',
+    locale: 'en-US',
     dowStart: 0,
     dowCount: 7,
     start: {
@@ -17,19 +17,22 @@ export const defaultConfig = () => ({
     endDate: DateTime.fromISO("2026-03-01"),
     maxCalendarRows: 5,
     styleVars: {
-        '--page-header-font-family': 'monospace',
-        '--page-header-font-size': '18px',
+        // '--page-header-font-family': 'monospace',
+        // '--page-header-font-size': '18px',
 
-        '--calendar-header-font-family': '"Lobster", sans-serif',
-        '--calendar-header-font-family': '"Great Vibes", sans-serif',
-        '--calendar-header-font-size': '24px',
+        // // '--calendar-header-font-family': '"Lobster", sans-serif',
+        // '--calendar-header-font-family': '"Great Vibes", sans-serif',
+        // '--calendar-header-font-size': '24px',
 
-        '--calendar-font-family': 'sans-serif',
+        // '--calendar-font-family': 'sans-serif',
+        // '--calendar-font-size': '12px',
+        // '--calendar-font-style': 'normal',
+        // '--calendar-font-weight': 'normal',
     },
 });
 
 export function main() {
-    runConfigApp("#vue-app", (props) => {
+    const generate = (props) => {
         const host = document.getElementById('target');
 
         host.innerHTML = '';
@@ -37,7 +40,9 @@ export function main() {
         const config = { ...defaultConfig(), ...props };
 
         renderFullCalendar(config, host);
-    });
+    };
+
+    runConfigApp("#vue-app", generate);
 }
 
 export function renderFullCalendar(config, host) {
@@ -47,6 +52,7 @@ export function renderFullCalendar(config, host) {
     for (const key of Object.keys(config.styleVars)) {
         const value = config.styleVars[key];
         host.style.setProperty(key, value);
+        console.log('setting style var', key, value);
     }
 
     let startDate = DateTime.fromObject({ year: config.start.year, month: config.start.month, day: 1 })

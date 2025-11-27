@@ -36,6 +36,11 @@ div.line {
     margin-bottom: 0.125in;
 }
 
+.page > header > h2 {
+    font-weight: var(--page-header-font-weight);
+    font-style: var(--page-header-font-style);
+}
+
 .page.alt {
     padding-left: 0.75in;
 }
@@ -69,8 +74,7 @@ div.line {
     table-layout: fixed;
     border-collapse: collapse;
 
-    font-family: var(--calendar-font-family);
-
+    /* font-family: var(--calendar-font-family); */
 }
 
 .calendar th, .calendar td {
@@ -98,6 +102,11 @@ div.line {
     font-size: var(--calendar-header-font-size, 12px);
 }
 
+.calendar th {
+    font-style: var(--calendar-header-font-style);
+    font-weight: var(--calendar-header-font-weight);
+}
+
 .calendar td {
     vertical-align: top;
     text-align: left;
@@ -107,6 +116,9 @@ div.line {
 
     padding: 4px;
 
+    font-family: var(--calendar-font-family);
+    font-style: var(--calendar-font-style);
+    font-weight: var(--calendar-font-weight);
     font-size: var(--calendar-font-size, 12px);
 
     overflow: hidden;
@@ -145,15 +157,4 @@ div.line {
 
         background: #fff;
     }
-}
-
-@media print {
-    .screen-only {
-        display: none;
-    }   
-}
-
-/* utility */
-.page-break {
-    break-after: page;
 }

@@ -10,9 +10,10 @@
     <script src="./luxon.min.js"></script>
     <script type="module" src="./modules/luxon.shim.js"></script>
     <script type="module" src="./modules/main.js"></script>
-    <link rel="stylesheet" href="./modern-normalize.css">
-    <link rel="stylesheet" href="./config.css">
-    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./style/modern-normalize.css">
+    <link rel="stylesheet" href="./style/utility.css">
+    <link rel="stylesheet" href="./style/config.css">
+    <link rel="stylesheet" href="./style/main.css">
 </head>
 <body>
     <main>
@@ -22,7 +23,7 @@
             <input id="cfg-start-year" type="number" v-model="startYear">
 
             <label for="cfg-start-year">Start Month</label>
-            <input id="cfg-start-year" type="number" v-model="startMonth">
+            <input id="cfg-start-year" type="number" min="1" max="12" v-model="startMonth">
 
             <!-- end date -->
             <!-- locale -->
@@ -39,10 +40,17 @@
                 <option value="6">Saturday</option>
             </select>
 
-            <label for="cfg-dow">First day of the week:</label>
-            <select id="cfg-dow" v-model="locale">
+            <label for="cfg-locale">Locale:</label>
+            <input type="text" v-model="locale">
+            <!-- <select id="cfg-locale" v-model="locale">
                 <option v-for="i in locales" :value="i.value">{{i.name}}</option>
-            </select>
+            </select> -->
+
+            <font-config label="Page Heading Font" style-var="page-header" v-model="styleVars['page-header']"></font-config>
+
+            <font-config label="Days Of the Week Font" style-var="calendar-header" v-model="styleVars['calendar-header']"></font-config>
+
+            <font-config label="Cell Number Font" style-var="calendar" v-model="styleVars['calendar']"></font-config>
 
             <p class="config-note">Note: This calendar does not split cells. 
                 Months with 30 or 31 days that begin on the 5th, 6th, or 7th day of the week

@@ -1,0 +1,36 @@
+.config {
+    margin: 10px auto;
+    padding: 10px;
+
+    width: 8.5in;
+
+    background: #fff;
+}
+
+.config-note {
+    border: 1px solid #333;
+    border-radius: 2px;
+    padding: 5px;
+    
+    font-style: italic;
+}
+
+.config label {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.config label + input, .config label + select {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.font-config {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.font-config > div {
+    margin: 5px;
+}
