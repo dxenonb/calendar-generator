@@ -1,8 +1,5 @@
 import luxon from './luxon.shim.js';
-import Vue from './vue.shim.js';
 import runConfigApp from './config.js';
-
-const { createApp, ref } = Vue;
 
 const { DateTime } = luxon;
 
@@ -14,7 +11,7 @@ export const defaultConfig = () => ({
         year: 2025,
         month: 10,
     },
-    endDate: DateTime.fromISO("2026-03-01"),
+    months: 12,
     maxCalendarRows: 5,
     styleVars: {
         // '--page-header-font-family': 'monospace',
@@ -59,13 +56,15 @@ export function renderFullCalendar(config, host) {
         .setLocale(config.locale);
 
     let instance = { startDate, pageNumber: 1 };
-    do {
+    for (let i=0; i < config.months; i+=1) {
         // TODO: fix the return type of renderMonth, we arent using it anymore
         const result = renderMonth(host, config, instance);
 
         startDate = startDate.plus({ months: 1 });
         instance = { startDate, pageNumber: result.pageNumber };
-    } while (instance.startDate.startOf('day') < config.endDate.startOf('day'));
+
+        console.log(i);
+    }
 }
 
 export function renderMonth(host, config, instance) {

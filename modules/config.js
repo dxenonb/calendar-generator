@@ -15,6 +15,8 @@ export default function runConfigApp(hostQuerySelector, cb) {
             const startYear = ref(new Date().getFullYear());
             const startMonth = ref(new Date().getMonth() + 1);
 
+            const months = ref(12);
+
             const dowStart = ref(1);
 
             const locale = ref(navigator.language);
@@ -48,6 +50,7 @@ export default function runConfigApp(hostQuerySelector, cb) {
             watch([
                 startYear, 
                 startMonth, 
+                months,
                 
                 dowStart,
                 locale,
@@ -59,6 +62,7 @@ export default function runConfigApp(hostQuerySelector, cb) {
                         year: startYear.value,
                         month: startMonth.value,
                     },
+                    months: months.value,
                     dowStart: dowStart.value,
                     styleVars: lowerStyleVars(styleVars),
                 })
@@ -67,6 +71,7 @@ export default function runConfigApp(hostQuerySelector, cb) {
             return {
                 startYear,
                 startMonth,
+                months,
                 dowStart,
                 locale,
                 // locales,
@@ -91,12 +96,4 @@ function lowerStyleVars(styleVars) {
         }
     }
     return result;
-}
-
-function makeConfig() {
-    return {
-        startYear: startYear.value,
-        startMonth: startMonth.value,
-        startDate: startDate.value,
-    }
 }
